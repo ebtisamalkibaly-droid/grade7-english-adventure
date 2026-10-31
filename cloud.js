@@ -2,7 +2,7 @@
 (()=>{
 'use strict';
 const cfg=window.G7_FIREBASE_CONFIG||{};
-const configured=!!(cfg.apiKey&&cfg.projectId&&cfg.appId&&!Object.values(cfg).some(x=>String(x).includes('PASTE_')));
+const configured=window.G7_CLOUD_LIVE_ENABLED===true && !!(cfg.apiKey&&cfg.projectId&&cfg.appId&&!Object.values(cfg).some(x=>String(x).includes('PASTE_')));
 const optKey='grade7-auto-cloud-consent-v1';
 let sdk,auth,db,ready,teacherListener,marksListener,rows=new Map(),marks=new Map();
 const api={configured,ready:false,mode:configured?'initializing':'not-configured',studentConnected:false,teacherVerified:false,teacherUid:'',uid:'',lastSynced:'',error:'',connectStudent,syncProgress,signInTeacher,signOutTeacher,saveWritingMark,removeStudentCloudProgress};
