@@ -10,11 +10,24 @@ service cloud.firestore {
         request.auth.uid == uid &&
         request.auth.token.firebase.sign_in_provider == 'anonymous';
     }
+    match /classCodes/{classId} {
+      allow read, write: if teacher();
+    }
+    function validClassCode() {
+      return request.resource.data.className in ['7/1','7/2']
+        && exists(/databases/$(database)/documents/classCodes/$(request.resource.data.className.replace('/', '-')))
+        && get(/databases/$(database)/documents/classCodes/$(request.resource.data.className.replace('/', '-'))).data.code == request.resource.data.joinCode;
+    }
     match /students/{uid} {
       allow get: if teacher() || owner(uid);
       allow list: if teacher();
       allow create, update: if owner(uid)
-        && request.resource.data.keys().hasOnly(['studentCode','className','nickname','history','version','consent','updatedAt','savedAt'])
+        && request.resource.data.keys().hasOnly(['studentCode','fullName','joinCode','className','nickname','history','version','consent','updatedAt','savedAt'])
+        && validClassCode()
+        && request.resource.data.fullName is string
+        && request.resource.data.fullName.size() >= 3
+        && request.resource.data.fullName.size() <= 80
+        && request.resource.data.joinCode is string
         && request.resource.data.studentCode is string
         && request.resource.data.studentCode.size() >= 3
         && request.resource.data.studentCode.size() <= 20
