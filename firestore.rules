@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function teacher() {
+      return request.auth != null &&
+        request.auth.uid == 'REPLACE_WITH_TEACHER_UID';
+    }
+    function owner(uid) {
+      return request.auth != null &&
+        request.auth.uid == uid &&
+        request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
+    match /students/{uid} {
+      allow get: if teacher() || owner(uid);
+      allow list: if teacher();
+      allow create, update: if owner(uid)
+        && request.resource.data.keys().hasOnly(['studentCode','className','nickname','history','version','consent','updatedAt','savedAt'])
+        && request.resource.data.studentCode is string
+        && request.resource.data.studentCode.size() >= 3
+        && request.resource.data.studentCode.size() <= 20
+        && request.resource.data.className in ['7/1', '7/2']
+        && request.resource.data.history is list
+        && request.resource.data.history.size() <= 100
+        && request.resource.data.consent == true;
+      allow delete: if owner(uid) || teacher();
+    }
+    match /writingMarks/{uid} {
+      allow read, write: if teacher();
+    }
+  }
+}
