@@ -19,3 +19,8 @@ footer strong{color:#24485c;font-size:.82rem}
 @media(max-width:1040px){.brand-credit{max-width:360px}}
 @media(max-width:780px){.brand-credit{font-size:.60rem;line-height:1.12;max-width:235px}.brand-credit [lang="ar"]{font-size:.62rem}.teacher-signature{align-items:flex-start;flex-direction:column;gap:5px}.teacher-signature small{margin-left:0}.topbar{min-height:85px}}
 @media print{.teacher-signature{border:0;border-bottom:1px solid #ccdbe0;background:none;margin-top:0;padding:8px 0;break-inside:avoid}.report-teacher{display:block}}
+
+/* Optional cloud dashboard */
+.cloud-panel{border:1px solid #b8ded7;background:linear-gradient(140deg,#f5fffc,#f6faff)}
+.cloud-status{background:#e9f4fa;color:#17495e;padding:12px 14px;border-radius:10px;border-left:4px solid #168579;font-size:.92rem;overflow-wrap:anywhere}
+@media print{.cloud-panel,.cloud-status{display:none!important}}
