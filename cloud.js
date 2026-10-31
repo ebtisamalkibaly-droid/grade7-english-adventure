@@ -5,7 +5,7 @@ const cfg=window.G7_FIREBASE_CONFIG||{};
 const configured=!!(cfg.apiKey&&cfg.projectId&&cfg.appId&&!Object.values(cfg).some(x=>String(x).includes('PASTE_')));
 const optKey='grade7-auto-cloud-consent-v1';
 let sdk,auth,db,ready,teacherListener,marksListener,rows=new Map(),marks=new Map();
-const api={configured,ready:false,mode:configured?'initializing':'not-configured',studentConnected:false,teacherVerified:false,teacherUid:'',uid:'',lastSynced:'',error:'',connectStudent,syncProgress,signInTeacher,signOutTeacher,saveWritingMark,removeStudentCloudProgress};
+const api={configured,ready:false,mode:configured?'initializing':'not-configured',studentConnected:false,teacherVerified:false,teacherUid:'',uid:'',lastSynced:'',error:'',connectStudent,syncProgress,signInTeacher,signOutTeacher,saveWritingMark,removeStudentCloudProgress,setClassCode};
 window.G7Cloud=api;
 function notify(){window.dispatchEvent(new CustomEvent('grade7-cloud-state',{detail:{mode:api.mode,error:api.error}}))}
 function fail(e){api.error=e?.message||'Sync unavailable';api.mode='error';notify()}
@@ -21,33 +21,38 @@ async function studentUser(){
  if(!auth.currentUser?.isAnonymous)throw Error('Student sign-in was not available.');
  return auth.currentUser;
 }
+async function setClassCode(className,code){
+ await ready;
+ if(!api.teacherVerified||!['7/1','7/2'].includes(className)||typeof code!=='string'||code.length<8||code.length>32)throw Error('Teacher sign-in and a code of 8–32 characters required.');
+ await sdk.setDoc(sdk.doc(db,'classCodes',className.replace('/','-')),{className,code,updatedAt:sdk.serverTimestamp()});
+}
 async function connectStudent(st){
  if(!configured)throw Error('The teacher has not activated Firebase.');
- if(!/^[A-Za-z0-9_-]{3,20}$/.test(st?.code||'')||!['7/1','7/2'].includes(st?.className))throw Error('Enter your assigned code and class.');
+ if(typeof st?.fullName!=='string'||st.fullName.trim().length<3||st.fullName.trim().length>80||!['7/1','7/2'].includes(st?.className)||typeof st.joinCode!=='string'||st.joinCode.length<8||st.joinCode.length>32)throw Error('Enter your full name, class and join code.');
  if(st.consent!==true)throw Error('Consent is required.');
  try{
   const u=await studentUser();
   const ref=sdk.doc(db,'students',u.uid);
   const old=await sdk.getDoc(ref);
   if(old.exists()){
-   if(old.data().studentCode!==st.code||old.data().className!==st.className)throw Error('This browser is linked to a different student. Use another browser profile.');
+   if(old.data().className!==st.className||old.data().fullName!==st.fullName.trim())throw Error('This browser is linked to a different student. Use another browser profile.');
    window.dispatchEvent(new CustomEvent('grade7-cloud-import',{detail:{history:cleanHistory(old.data().history)}}));
   }
-  localStorage.setItem(optKey,JSON.stringify({uid:u.uid,code:st.code,className:st.className,consent:true}));
+  localStorage.setItem(optKey,JSON.stringify({uid:u.uid,code:'G7'+u.uid.slice(0,15),className:st.className,fullName:st.fullName.trim(),joinCode:st.joinCode,consent:true}));
   api.studentConnected=true;api.uid=u.uid;api.mode='student-connected';api.error='';notify();return {uid:u.uid};
  }catch(e){fail(e);throw e}
 }
 async function syncProgress(st,history){
  const c=consent();if(!configured||!c?.consent||!api.studentConnected||!auth?.currentUser?.isAnonymous)return {skipped:true};
- if(c.uid!==auth.currentUser.uid||c.code!==st.code||c.className!==st.className)throw Error('Student code does not match this session.');
+ if(c.uid!==auth.currentUser.uid||c.className!==st.className)throw Error('Student code does not match this session.');
  try{
-  await sdk.setDoc(sdk.doc(db,'students',c.uid),{studentCode:c.code,className:c.className,nickname:'',history:cleanHistory(history),version:1,consent:true,updatedAt:new Date().toISOString(),savedAt:sdk.serverTimestamp()});
+  await sdk.setDoc(sdk.doc(db,'students',c.uid),{studentCode:c.code,fullName:c.fullName,joinCode:c.joinCode,className:c.className,nickname:'',history:cleanHistory(history),version:1,consent:true,updatedAt:new Date().toISOString(),savedAt:sdk.serverTimestamp()});
   api.lastSynced=new Date().toLocaleString();api.error='';api.mode='student-connected';notify();return {saved:true};
  }catch(e){fail(e);throw e}
 }
 function notifyTeacher(){
  const records=[];
- for(const [uid,r] of rows){records.push({uid,student:{code:String(r.studentCode||''),class:String(r.className||''),name:''},exportedAt:String(r.updatedAt||''),history:cleanHistory(r.history),marks:marks.get(uid)||{}})}
+ for(const [uid,r] of rows){records.push({uid,student:{code:String(r.studentCode||''),class:String(r.className||''),name:String(r.fullName||'')},exportedAt:String(r.updatedAt||''),history:cleanHistory(r.history),marks:marks.get(uid)||{}})}
  window.dispatchEvent(new CustomEvent('grade7-teacher-data',{detail:{records}}));
 }
 async function startTeacher(u){
@@ -101,7 +106,7 @@ async function initialize(){
    const c=consent();if(!c?.consent||c.uid!==u.uid)return;
    try{
     const d=await sdk.getDoc(sdk.doc(db,'students',u.uid));
-    if(d.exists()&&d.data().studentCode===c.code&&d.data().className===c.className){
+    if(d.exists()&&d.data().fullName===c.fullName&&d.data().className===c.className){
      window.dispatchEvent(new CustomEvent('grade7-cloud-import',{detail:{history:cleanHistory(d.data().history)}}));
      api.studentConnected=true;api.uid=u.uid;api.mode='student-connected';notify();
     }
