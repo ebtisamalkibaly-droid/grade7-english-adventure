@@ -16,7 +16,7 @@ service cloud.firestore {
     function validClassCode() {
       return request.resource.data.className in ['7/1','7/2']
         && exists(/databases/$(database)/documents/classCodes/$((request.resource.data.className == '7/1' ? '7-1' : '7-2')))
-        && get(/databases/$(database)/documents/classCodes/$(request.resource.data.className.replace('/', '-'))).data.code == request.resource.data.joinCode;
+        && get(/databases/$(database)/documents/classCodes/$((request.resource.data.className == '7/1' ? '7-1' : '7-2'))).data.code == request.resource.data.joinCode;
     }
     match /students/{uid} {
       allow get: if teacher() || owner(uid);
