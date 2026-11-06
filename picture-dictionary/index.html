@@ -37,9 +37,9 @@ const PHOTO_FIXED={
  "variety":{url:"https://commons.wikimedia.org/wiki/Special:FilePath/Gran_variedad_de_frutas_y_verduras.jpg?width=540",
              page:"https://commons.wikimedia.org/wiki/File:Gran_variedad_de_frutas_y_verduras.jpg",
              author:"Xanyssel",license:"CC BY-SA 4.0",caption:"Different kinds of fresh fruits and vegetables displayed at a market"},
- "healthy":{url:"https://commons.wikimedia.org/wiki/Special:FilePath/An_assortment_of_fresh_fruits.jpg?width=540",
-            page:"https://commons.wikimedia.org/wiki/File:An_assortment_of_fresh_fruits.jpg",
-            author:"Catherine Amia",license:"CC BY-SA 4.0",caption:"An assortment of fresh fruits"}
+ "healthy":{url:"https://commons.wikimedia.org/wiki/Special:FilePath/Assorted_fruits.jpg?width=540",
+            page:"https://commons.wikimedia.org/wiki/File:Assorted_fruits.jpg",
+            author:"Ruth Hartnup",license:"CC BY 2.0",caption:"An assortment of fresh fruits"}
 };
 const PHOTO_SEARCH={
  "balanced":"balanced healthy meal plate vegetables rice chicken photograph",
@@ -204,9 +204,12 @@ async function wikiPhoto(w){
  if(!response.ok)throw Error('Image search unavailable');
  const data=await response.json();
  const choices=Object.values(data.query?.pages||{}).filter(p=>{
-    const info=p.imageinfo?.[0];return info?.thumburl&&/^https:\/\//.test(info.thumburl)&&
-     /\.(jpe?g|png|webp)$/i.test((p.title||'').split('?')[0]) &&
-     !/logo|icon|flag|clipart|stock photo|watermark/i.test(p.title||'');
+    const info=p.imageinfo?.[0], filename=(p.title||'').toLowerCase().replace(/file:|_/g,' ');
+    const terms=w.word.toLowerCase().split(/\s+/).filter(t=>t.length>3);
+    return info?.thumburl&&/^https:\/\//.test(info.thumburl)&&
+      /\.(jpe?g|png|webp)$/i.test((p.title||'').split('?')[0]) &&
+      !/logo|icon|flag|clipart|watermark|montage|illustration|advert|poster|vector/i.test(filename) &&
+      terms.length>0 && terms.some(t=>filename.includes(t));
  }).sort((a,b)=>(a.index??0)-(b.index??0));
  if(!choices.length)throw Error('No suitable photograph found');
  const choice=choices[0], info=choice.imageinfo[0],meta=info.extmetadata||{};
