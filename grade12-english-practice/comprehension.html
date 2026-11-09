@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#153b53">
-<meta name="description" content="Grade 12 English reading comprehension. One short story, five questions, helpful feedback, and a second chance. No student names or accounts.">
-<title>Reading Comprehension · Five Questions | Grade 12</title>
+<meta name="description" content="Grade 12 English reading comprehension: five original passages, five questions per text, instant feedback and a second chance.">
+<title>Reading Comprehension · Five Passages | Grade 12</title>
 <style>
 :root{--navy:#163750;--teal:#087f79;--light:#edf8f6;--blue:#edf5fb;--ink:#173249;--muted:#566c7d;--line:#dbe9e9;--ok:#087653;--err:#b14642;--bg:#f4f8fa}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--bg);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.6}button,a{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #f3ab39;outline-offset:3px}
@@ -19,17 +19,20 @@ main{max-width:1050px;margin:-20px auto 70px;padding:0 22px;display:grid;gap:18p
 .result{background:#eff9f5;border-radius:18px;padding:29px;text-align:center}.result h2{font-size:27px;margin:5px 0}.bigscore{font-weight:900;color:#08715f;font-size:50px;letter-spacing:-.05em}.result p{color:var(--muted);max-width:500px;margin:0 auto 18px}.result .actionbar{justify-content:center}.note{font-size:12px;color:#708395;text-align:center;margin:0}
 @media(max-width:680px){.top{padding:12px}.brand{font-size:12px}.back{font-size:12px}.hero-inner{padding:30px 17px 42px}main{padding:0 12px;margin-top:-18px}.card{padding:18px;border-radius:18px}.story{font-size:16px}.audio{width:100%}.section-title{font-size:22px}.answer{padding:12px;min-height:58px}.actionbar button{flex:1}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+.text-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:15px}.text-tab{min-width:0;text-align:left;background:#f8fbfb;border:2px solid #e1ebec;border-radius:12px;padding:12px 10px;color:var(--ink);font-size:12px;font-weight:750;line-height:1.35}.text-tab strong{display:block;color:var(--teal);font-size:14px}.text-tab.active{background:#e8f8f2;border-color:#17a48d}.text-tab.done:not(.active){background:#f0f7fb;border-color:#a8d3d0}.text-tab:hover{border-color:#159d89}.text-score{font-size:12px;color:var(--muted);margin-top:4px}.reading-title{margin-bottom:0}@media(max-width:780px){.text-nav{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:400px){.text-nav{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header><div class="top"><div class="brand"><span class="logo" aria-hidden="true">📖</span><span>GRADE 12 · ENGLISH SUPPORT</span></div><a class="back" href="index.html">← All practice websites</a></div></header>
-<section class="hero"><div class="hero-inner"><div class="eyebrow">READING COMPREHENSION · SHORT PRACTICE</div><h1>Read. Think. Shine.</h1><p>Read one short story and answer five questions. You can try again and learn from every mistake.</p><div class="pills"><span class="pill">1 short story</span><span class="pill">5 questions</span><span class="pill">Instant feedback</span><span class="pill">Second chance</span></div></div></section>
+<section class="hero"><div class="hero-inner"><div class="eyebrow">READING COMPREHENSION · SHORT PRACTICE</div><h1>Read. Think. Shine.</h1><p>Choose one of five short stories. Each one has five comprehension questions, explanations, and a second try.</p><div class="pills"><span class="pill">5 short stories</span><span class="pill">25 questions total</span><span class="pill">Instant feedback</span><span class="pill">Second chance</span></div></div></section>
 <main>
+<nav class="card text-nav" id="text-nav" aria-label="Choose a reading text"></nav>
 <article class="card" aria-label="Reading passage">
-<div class="row"><div><div class="tag">Read the story</div><h2 class="section-title">A Small Idea, A Big Help</h2></div><button class="audio" id="audio" type="button">▶ Listen to the story</button></div>
-<p class="story" id="story">Last month, Noor and her classmates started a small school project. They made colorful bookmarks and sold them at the school fair. At first, Noor felt nervous because she had never sold anything before. Her friend Huda helped her talk to customers. They spent 40 dirhams on paper and colors and earned 100 dirhams from sales. Their profit was 60 dirhams. They put aside 20 dirhams to buy supplies for the next fair. They gave the other 40 dirhams as a donation to help children. Noor learned that good communication and teamwork can make a small project successful. She hopes to start another project next term.</p>
-<div class="glossary"><span class="word"><b>profit</b> — money left after costs</span><span class="word"><b>donation</b> — money given to help</span><span class="word"><b>put aside</b> — keep money for later</span></div>
-<div class="instructions">Tip: You can look back at the story while answering. Read each question carefully. Your score counts correct answers on your <strong>first try</strong>.</div>
+<div class="row"><div><div class="tag" id="passage-count">READING 1 OF 5</div><h2 class="section-title reading-title" id="story-title"></h2><div class="text-score" id="topic"></div></div><button class="audio" id="audio" type="button">▶ Listen to the story</button></div>
+<p class="story" id="story"></p>
+<div class="glossary" id="glossary"></div>
+<div class="instructions">Tip: Look back at the text to find evidence. You get one hint and a second try after a wrong answer. Your score counts answers correct on the <strong>first try</strong>.</div>
 </article>
 <section class="card" id="quiz" aria-label="Reading questions">
 <div class="row"><div><div class="tag" id="skill">Find a detail</div><h2 class="section-title">Check Your Understanding</h2></div><div class="scorebox" id="score" aria-live="polite">First-try score: 0 / 5</div></div>
@@ -37,86 +40,106 @@ main{max-width:1050px;margin:-20px auto 70px;padding:0 22px;display:grid;gap:18p
 <h3 id="question"></h3><div class="answers" id="answers"></div><div class="feedback" role="status" aria-live="polite" id="feedback"></div>
 <div class="actionbar"><button type="button" class="primary hidden" id="next">Next question →</button></div>
 </section>
-<section class="card hidden" id="results" aria-label="Practice results"><div class="result"><div class="tag">YOU FINISHED!</div><h2>Well done!</h2><div class="bigscore" id="finalscore">0 / 5</div><p id="resulttext"></p><div class="actionbar"><button class="ghost" type="button" id="restart">Try all 5 questions again</button><a class="primary" href="index.html" style="text-decoration:none;display:inline-flex;align-items:center">Back to practice home</a></div></div></section>
-<p class="note">No student name or account is required. Only the best score is saved in this browser.</p>
+<section class="card hidden" id="results" aria-label="Practice results"><div class="result"><div class="tag">TEXT COMPLETE!</div><h2>Well done!</h2><div class="bigscore" id="finalscore">0 / 5</div><p id="resulttext"></p><div class="actionbar"><button class="ghost" type="button" id="restart">Try this text again</button><button class="primary" type="button" id="next-text">Go to next text →</button></div></div></section>
+<p class="note">No student name or account is required. Scores for each text are saved only in this browser.</p>
 </main>
 <script>
 (function(){
 "use strict";
-const passage=document.getElementById("story").textContent;
-const questions=[{"skill":"Find a detail","q":"What did Noor and her classmates make for the school fair?","opts":["Bookmarks","School bags","Cupcakes"],"answer":0,"hint":"Read the second sentence. What did the students make and sell?","explain":"They made colorful bookmarks and sold them at the school fair."},{"skill":"Understand a reason","q":"Why did Noor feel nervous at first?","opts":["She lost her school bag.","She had never sold anything before.","She was late for class."],"answer":1,"hint":"Look for the words 'At first' and 'because' in the story.","explain":"Noor was nervous because it was her first time selling something."},{"skill":"Find information","q":"How much profit did the students make?","opts":["40 dirhams","100 dirhams","60 dirhams"],"answer":2,"hint":"Find the money they earned and the cost of their materials.","explain":"The students earned 100 dirhams and spent 40 dirhams. Their profit was 60 dirhams."},{"skill":"Vocabulary in context","q":"What does 'put aside' mean in the story?","opts":["Save for later","Spend immediately","Borrow from someone"],"answer":0,"hint":"Read what they planned to do with the 20 dirhams at the next fair.","explain":"'Put aside' means to save money for later. They kept 20 dirhams for supplies."},{"skill":"Identify the main idea","q":"What is the main idea of the story?","opts":["School fairs are always difficult.","Small projects can teach skills and help others.","Students should spend all their money."],"answer":1,"hint":"Think about what Noor learned and how the project helped children.","explain":"The project helped Noor practise communication and teamwork while giving a donation to children."}];
-let i=0,firstTryScore=0,attempts=0,locked=false;
+const passages=[{"id":"1","title":"A Small Idea, A Big Help","topic":"Money & helping people","passage":"Last month, Noor and her classmates started a small school project. They made colorful bookmarks and sold them at the school fair. At first, Noor felt nervous because she had never sold anything before. Her friend Huda helped her talk to customers. They spent 40 dirhams on paper and colors and earned 100 dirhams from sales. Their profit was 60 dirhams. They put aside 20 dirhams to buy supplies for the next fair. They gave the other 40 dirhams as a donation to help children. Noor learned that good communication and teamwork can make a small project successful. She hopes to start another project next term.","glossary":[["profit","money left after costs"],["donation","money given to help"],["put aside","save for later"]],"questions":[{"skill":"Find a detail","q":"What did Noor and her classmates make for the school fair?","opts":["Bookmarks","School bags","Cupcakes"],"answer":0,"hint":"Read the second sentence. What did the students make and sell?","explain":"They made colorful bookmarks and sold them at the school fair."},{"skill":"Understand a reason","q":"Why did Noor feel nervous at first?","opts":["She lost her school bag.","She had never sold anything before.","She was late for class."],"answer":1,"hint":"Look for the words 'At first' and 'because' in the story.","explain":"Noor was nervous because it was her first time selling something."},{"skill":"Find information","q":"How much profit did the students make?","opts":["40 dirhams","100 dirhams","60 dirhams"],"answer":2,"hint":"Find the money they earned and the cost of their materials.","explain":"The students earned 100 dirhams and spent 40 dirhams. Their profit was 60 dirhams."},{"skill":"Vocabulary in context","q":"What does 'put aside' mean in the story?","opts":["Save for later","Spend immediately","Borrow from someone"],"answer":0,"hint":"Read what they planned to do with the 20 dirhams at the next fair.","explain":"'Put aside' means to save money for later. They kept 20 dirhams for supplies."},{"skill":"Identify the main idea","q":"What is the main idea of the story?","opts":["School fairs are always difficult.","Small projects can teach skills and help others.","Students should spend all their money."],"answer":1,"hint":"Think about what Noor learned and how the project helped children.","explain":"The project helped Noor practise communication and teamwork while giving a donation to children."}]},{"id":"2","title":"Sara Learns at a Clinic","topic":"Jobs & internships","passage":"During the summer holiday, Sara joined a two-week internship at a local clinic. On her first day, she felt shy and spoke very quietly. Her supervisor showed her how to welcome patients and check appointment times. Sara listened carefully and asked questions when she needed help. After one week, she could speak to patients more clearly. One morning, the waiting room became very busy. Sara changed her tasks and helped an older patient find the correct room. Her supervisor was pleased because Sara was flexible and kind. At the end of the internship, Sara wrote about her experience in a future job application. She learned that practice can build confidence.","glossary":[["internship","learning at work"],["supervisor","person who guides you"],["flexible","able to change"]],"questions":[{"skill":"Find a detail","q":"Where did Sara do her internship?","opts":["At a bank","At a clinic","At a supermarket"],"answer":1,"hint":"Check the first sentence for the workplace.","explain":"Sara joined an internship at a local clinic."},{"skill":"Find a detail","q":"What did the supervisor teach Sara?","opts":["How to welcome patients and check appointments","How to drive a bus","How to sell books"],"answer":0,"hint":"Find the two tasks on Sara's first day.","explain":"Sara learned to welcome patients and check appointment times."},{"skill":"Understand a change","q":"What improved after one week?","opts":["Her cooking skills","Her handwriting","Her communication with patients"],"answer":2,"hint":"Compare how Sara spoke before and after a week.","explain":"Sara could speak to patients more clearly after a week."},{"skill":"Vocabulary in context","q":"What does 'flexible' mean in the story?","opts":["Able to change tasks when needed","Always arriving late","Not willing to learn"],"answer":0,"hint":"Think about what Sara did when the clinic was busy.","explain":"Sara was flexible because she changed tasks to help a patient."},{"skill":"Main idea","q":"What did Sara learn from her internship?","opts":["Work is always easy.","Practice builds confidence and work skills.","Patients should work at clinics."],"answer":1,"hint":"Review what changed from her first day to her last.","explain":"By practising and helping others, Sara gained confidence and useful work skills."}]},{"id":"3","title":"Aisha Saves for University","topic":"Saving & studying","passage":"Aisha is a Grade 12 student who wants to study engineering at university. Every Saturday, she helps in her aunt's bookshop and earns 150 dirhams. She puts aside 40 dirhams from her wages each week. She uses some of the other money for transport and school supplies. Her teacher tells her about scholarships that can help students pay for university. Aisha applies for one because she wants to reduce the cost of her studies. Her friend also mentions a student loan, but Aisha learns that a loan must be paid back later. She makes a simple savings plan and checks it every month. Aisha believes that planning early will help her reach her goal.","glossary":[["wages","money paid for work"],["scholarship","study funding"],["student loan","borrowed money for study"]],"questions":[{"skill":"Find a detail","q":"What does Aisha want to study at university?","opts":["Medicine","Engineering","Art"],"answer":1,"hint":"Look for her goal in the opening sentence.","explain":"Aisha wants to study engineering."},{"skill":"Find a detail","q":"How much money does Aisha put aside each week?","opts":["40 dirhams","150 dirhams","190 dirhams"],"answer":0,"hint":"Choose the amount she saves, not what she earns.","explain":"She puts aside 40 dirhams of her wages each week."},{"skill":"Understand a reason","q":"Why does Aisha apply for a scholarship?","opts":["To buy a phone","To pay her aunt","To reduce the cost of university"],"answer":2,"hint":"Look for the sentence about her reason for applying.","explain":"The scholarship could help her pay for university."},{"skill":"Vocabulary in context","q":"What is true about a student loan?","opts":["It is always a gift.","It must be paid back.","It is a worker's wages."],"answer":1,"hint":"Compare financial help with money that is borrowed.","explain":"A student loan is borrowed money that must be repaid later."},{"skill":"Main idea","q":"What is the main lesson of Aisha's story?","opts":["Planning and saving help future goals.","Students should never make plans.","University is only for workers."],"answer":0,"hint":"Think about why she saves and explores funding.","explain":"Aisha saves regularly and plans for university expenses."}]},{"id":"4","title":"A Changing Workplace","topic":"Careers & flexibility","passage":"Mariam works for a small design company. Last year, everyone worked at the office every day. This year, some employees work remotely from home for two days each week. Mariam enjoys the flexible schedule because she can spend less time travelling. However, the team still meets online every morning to share ideas. The company also uses a new computer program, so workers need to learn new skills. Their manager gives them one afternoon each week for training. At first, Mariam found the program difficult. After practising for several weeks, she became more confident. Mariam thinks communication, adaptability, and learning are important for a successful career.","glossary":[["remotely","from another location"],["flexible","able to change"],["adaptability","ability to adjust"]],"questions":[{"skill":"Find a detail","q":"How many days per week can some employees work at home?","opts":["One day","Two days","Five days"],"answer":1,"hint":"Find the sentence that mentions working remotely.","explain":"Some employees work from home two days each week."},{"skill":"Understand a reason","q":"Why does Mariam like the flexible schedule?","opts":["She travels less.","She never attends meetings.","She stops working early."],"answer":0,"hint":"Read the reason after the word 'because'.","explain":"The new schedule means she spends less time travelling."},{"skill":"Find a detail","q":"How often does the team meet online?","opts":["Once a month","Every Friday","Every morning"],"answer":2,"hint":"Find the meeting schedule in the passage.","explain":"The team meets online every morning."},{"skill":"Understand a reason","q":"Why does the manager give the team training time?","opts":["To learn a new program","To have longer holidays","Because the office is closing"],"answer":0,"hint":"Look at which new tool the company uses.","explain":"Employees need training to learn the company's new computer program."},{"skill":"Main idea","q":"What is the main message of this passage?","opts":["Technology makes skills unimportant.","Learning and adaptability help at work.","Working from home ends teamwork."],"answer":1,"hint":"Think about how Mariam reacts to changes at work.","explain":"Mariam grows more confident by learning new skills and adapting."}]},{"id":"5","title":"The Community Reading Corner","topic":"Volunteering & teamwork","passage":"A group of Grade 12 students noticed that younger children at their school needed more English storybooks. They decided to create a small reading corner. Each student brought one or two books from home, and their teacher gave a donation of ten new books. On Thursday afternoon, the students cleaned a quiet classroom and arranged the books on shelves. Fatima made colorful signs, while Layla read a short story to the children. At first, only six children visited. After the students shared posters around the school, fifteen children came the next week. The volunteers felt proud because their simple idea helped others enjoy reading. They hope to open the reading corner twice a week.","glossary":[["donation","something given to help"],["volunteers","people who help freely"],["arranged","put in order"]],"questions":[{"skill":"Understand a reason","q":"Why did the Grade 12 students create a reading corner?","opts":["They needed sports equipment.","Younger children needed English storybooks.","They wanted to sell snacks."],"answer":1,"hint":"Find the problem described at the beginning.","explain":"Younger children needed more English storybooks."},{"skill":"Find a detail","q":"What did the teacher donate?","opts":["Ten new books","Fifteen posters","Six shelves"],"answer":0,"hint":"Look at what the teacher gave to the project.","explain":"Their teacher donated ten new books."},{"skill":"Find a detail","q":"Who read a short story to the children?","opts":["Fatima","The teacher","Layla"],"answer":2,"hint":"Check the different jobs of Fatima and Layla.","explain":"Layla read to the children, while Fatima made signs."},{"skill":"Compare information","q":"How many children visited the following week?","opts":["Six","Fifteen","Ten"],"answer":1,"hint":"Two weeks are described; look for the later week's number.","explain":"Fifteen children came the next week after the posters were shared."},{"skill":"Main idea","q":"Which sentence best describes the main idea?","opts":["Students can work together to help others read.","Books should stay at home.","Reading corners cannot grow."],"answer":0,"hint":"Think about the students' goal and what happened after.","explain":"The students worked together to create a reading space for younger children."}]}];
+let current=0,questionIndex=0,firstTryScore=0,attempts=0,locked=false;
 const $=id=>document.getElementById(id);
-const key="grade12-reading-five-v1";
-const answerButtons=()=>Array.from(document.querySelectorAll("#answers button"));
-function saveBest(){try{const current=Number(localStorage.getItem(key)||"0");if(firstTryScore>current)localStorage.setItem(key,String(firstTryScore));}catch(e){}}
-function feedback(title,description,good){
- const f=$("feedback");f.className="feedback show"+(good?" good":"");f.replaceChildren();
- const strong=document.createElement("strong");strong.textContent=title;const p=document.createElement("p");p.textContent=description;f.append(strong,p);
+const key="grade12-comprehension-5texts-v1";
+let completed={};
+try { const obj=JSON.parse(localStorage.getItem(key)||"{}");if(obj&&typeof obj==="object"&&!Array.isArray(obj))completed=obj; } catch(e){}
+function save(){try{localStorage.setItem(key,JSON.stringify(completed))}catch(e){}}
+function updateNavigation(){
+ const nav=$("text-nav");nav.replaceChildren();
+ passages.forEach((p,j)=>{
+ const btn=document.createElement("button");btn.type="button";btn.className="text-tab"+(j===current?" active":"")+(completed[p.id]!==undefined?" done":"");
+ const bold=document.createElement("strong");bold.textContent="Text "+(j+1);
+ const label=document.createElement("span");label.textContent=p.title;
+ const note=document.createElement("div");note.className="text-score";note.textContent=completed[p.id]!==undefined?"Best "+completed[p.id]+"/5":"Not completed";
+ btn.append(bold,label,note);if(j===current)btn.setAttribute("aria-current","step");
+ btn.addEventListener("click",()=>switchText(j));nav.append(btn);
+ });
 }
-function updateProgress(){
- $("skill").textContent=questions[i].skill;
- $("position").textContent="Question "+(i+1)+" of "+questions.length;
- $("percentage").textContent=Math.round(100*i/questions.length)+"% complete";
- $("progress").setAttribute("aria-valuenow",String(i));
- $("fill").style.width=(i/questions.length*100)+"%";
- $("score").textContent="First-try score: "+firstTryScore+" / "+questions.length;
+function switchText(j){
+ if(j<0||j>=passages.length)return;
+ if("speechSynthesis" in window)window.speechSynthesis.cancel();
+ $("audio").textContent="▶ Listen to the story";
+ current=j;questionIndex=0;firstTryScore=0;attempts=0;locked=false;
+ const p=passages[current];
+ $("passage-count").textContent="READING "+(j+1)+" OF 5";
+ $("story-title").textContent=p.title;$("topic").textContent=p.topic;
+ $("story").textContent=p.passage;$("glossary").replaceChildren();
+ p.glossary.forEach(pair=>{const span=document.createElement("span");span.className="word";const bold=document.createElement("b");bold.textContent=pair[0];span.append(bold,document.createTextNode(" — "+pair[1]));$("glossary").append(span);});
+ $("results").classList.add("hidden");$("quiz").classList.remove("hidden");
+ updateNavigation();showQuestion();$("text-nav").scrollIntoView({block:"start",behavior:"smooth"});
+}
+function feedback(title,description,good){
+ const region=$("feedback");region.className="feedback show"+(good?" good":"");region.replaceChildren();
+ const hd=document.createElement("strong");hd.textContent=title;const p=document.createElement("p");p.textContent=description;region.append(hd,p);
 }
 function showQuestion(){
- const q=questions[i];attempts=0;locked=false;updateProgress();
- $("question").textContent=q.q;$("answers").replaceChildren();$("feedback").className="feedback";$("feedback").replaceChildren();$("next").classList.add("hidden");
- q.opts.forEach(function(opt,j){
- const b=document.createElement("button");b.type="button";b.className="answer";
- const l=document.createElement("span");l.className="letter";l.textContent=String.fromCharCode(65+j);
- const t=document.createElement("span");t.textContent=opt;b.append(l,t);
- b.addEventListener("click",function(){choose(j)});$("answers").append(b);
+ const p=passages[current],q=p.questions[questionIndex];attempts=0;locked=false;
+ $("skill").textContent=q.skill;$("position").textContent="Question "+(questionIndex+1)+" of 5";
+ $("percentage").textContent=Math.round(questionIndex/5*100)+"% complete";
+ $("progress").setAttribute("aria-valuenow",String(questionIndex));$("fill").style.width=(questionIndex/5*100)+"%";
+ $("score").textContent="First-try score: "+firstTryScore+" / 5";
+ $("question").textContent=q.q;$("answers").replaceChildren();
+ $("feedback").className="feedback";$("feedback").replaceChildren();$("next").classList.add("hidden");
+ q.opts.forEach((option,k)=>{
+   const btn=document.createElement("button");btn.type="button";btn.className="answer";
+   const letter=document.createElement("span");letter.className="letter";letter.textContent=String.fromCharCode(65+k);
+   const label=document.createElement("span");label.textContent=option;btn.append(letter,label);
+   btn.addEventListener("click",()=>answer(k));$("answers").append(btn);
  });
- $("next").textContent=i===questions.length-1?"See my score →":"Next question →";
+ $("next").textContent=questionIndex===4?"Finish this text →":"Next question →";
 }
-function choose(j){
- if(locked)return;
- const q=questions[i],buttons=answerButtons();
- if(buttons[j].disabled)return;
- if(j===q.answer){
-   if(attempts===0)firstTryScore++;
-   locked=true;
-   buttons.forEach((b,k)=>{b.disabled=true;if(k===q.answer)b.classList.add("correct");else b.classList.add("dimmed")});
-   feedback(attempts===0?"✓ Excellent! That's correct.":"✓ Great! You got it on your second try.",q.explain,true);
-   $("score").textContent="First-try score: "+firstTryScore+" / "+questions.length;
+function answer(choice){
+ if(locked)return;const q=passages[current].questions[questionIndex];
+ const buttons=Array.from($("answers").querySelectorAll("button"));if(buttons[choice].disabled)return;
+ if(choice===q.answer){
+   if(attempts===0)firstTryScore++;locked=true;
+   buttons.forEach((b,k)=>{b.disabled=true;b.classList.add(k===q.answer?"correct":"dimmed")});
+   feedback(attempts===0?"✓ Excellent! That is correct.":"✓ Well done! You found it.",q.explain,true);
+   $("score").textContent="First-try score: "+firstTryScore+" / 5";
    $("next").classList.remove("hidden");$("next").focus();
  }else{
-   attempts++;buttons[j].disabled=true;buttons[j].classList.add("wrong");
-   if(attempts===1){feedback("Not quite. Try one more time!",q.hint,false);}
-   else{
-     locked=true;buttons.forEach((b,k)=>{b.disabled=true;if(k===q.answer)b.classList.add("correct");else if(k!==j)b.classList.add("dimmed")});
-     feedback("Let's learn this answer.",q.explain+" Correct answer: "+q.opts[q.answer]+".",false);
+   attempts++;buttons[choice].disabled=true;buttons[choice].classList.add("wrong");
+   if(attempts===1){feedback("Not quite — try again!",q.hint,false);}
+   else {
+     locked=true;buttons.forEach((b,k)=>{b.disabled=true;if(k===q.answer)b.classList.add("correct");else if(k!==choice)b.classList.add("dimmed")});
+     feedback("Learn from this answer.",q.explain+" Correct answer: "+q.opts[q.answer]+".",false);
      $("next").classList.remove("hidden");$("next").focus();
    }
  }
 }
 function finish(){
- $("quiz").classList.add("hidden");$("results").classList.remove("hidden");
- $("finalscore").textContent=firstTryScore+" / "+questions.length;
- const message=firstTryScore===5?"Excellent understanding! You answered every question correctly on the first try.":firstTryScore>=3?"Good work! Review the explanations and try again to improve your score.":"Keep practising! Read the story again and use the clues to improve.";
- let best=firstTryScore;try{best=Math.max(best,Number(localStorage.getItem(key)||0));}catch(e){}
- $("resulttext").textContent=message+" Best score on this device: "+best+" / 5.";
- saveBest();
+ const id=passages[current].id;completed[id]=Math.max(Number(completed[id]||0),firstTryScore);save();
+ updateNavigation();$("quiz").classList.add("hidden");$("results").classList.remove("hidden");
+ $("finalscore").textContent=firstTryScore+" / 5";
+ const done=Object.keys(completed).length;
+ $("resulttext").textContent=(firstTryScore===5?"Excellent! All five answers were right on the first try.":firstTryScore>=3?"Good work! Read the explanations and try again to improve.":"Keep practising. Read the story again, then try again.")+" Best score: "+completed[id]+"/5. Texts completed: "+done+"/5.";
+ $("next-text").classList.toggle("hidden",current===passages.length-1);
  $("results").scrollIntoView({block:"start",behavior:"smooth"});
 }
-$("next").addEventListener("click",function(){if(!locked)return;i++;if(i===questions.length){finish();return;}showQuestion();$("quiz").scrollIntoView({block:"start",behavior:"smooth"});});
-$("restart").addEventListener("click",function(){i=0;firstTryScore=0;attempts=0;locked=false;$("results").classList.add("hidden");$("quiz").classList.remove("hidden");showQuestion();$("quiz").scrollIntoView({block:"start",behavior:"smooth"});});
+$("next").addEventListener("click",()=>{if(!locked)return;questionIndex++;if(questionIndex===5)finish();else{showQuestion();$("quiz").scrollIntoView({block:"start",behavior:"smooth"})}});
+$("restart").addEventListener("click",()=>switchText(current));
+$("next-text").addEventListener("click",()=>switchText(current+1));
 const audio=$("audio");
 if(!("speechSynthesis" in window)){audio.disabled=true;audio.textContent="Audio not available";}
 else{
- audio.addEventListener("click",function(){
-   if(window.speechSynthesis.speaking){window.speechSynthesis.cancel();audio.textContent="▶ Listen to the story";return;}
-   const utterance=new SpeechSynthesisUtterance(passage);utterance.lang="en-US";utterance.rate=0.85;
-   utterance.onend=utterance.onerror=function(){audio.textContent="▶ Listen to the story"};
-   audio.textContent="■ Stop reading";window.speechSynthesis.speak(utterance);
+ audio.addEventListener("click",()=>{
+ if(window.speechSynthesis.speaking){window.speechSynthesis.cancel();audio.textContent="▶ Listen to the story";return;}
+ const utterance=new SpeechSynthesisUtterance(passages[current].passage);utterance.lang="en-US";utterance.rate=.85;
+ utterance.onend=utterance.onerror=()=>audio.textContent="▶ Listen to the story";
+ audio.textContent="■ Stop reading";window.speechSynthesis.speak(utterance);
  });
- window.addEventListener("pagehide",function(){window.speechSynthesis.cancel()});
+ window.addEventListener("pagehide",()=>window.speechSynthesis.cancel());
 }
-showQuestion();
+switchText(0);
 })();
 </script>
 </body>
