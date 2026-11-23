@@ -7,7 +7,9 @@ const countWords=s=>(String(s||'').trim().match(/\b[\p{L}\p{N}’'-]+\b/gu)||[])
 const storeKey='grade7-english-adventure-2026v2';
 let saved={};try{saved=JSON.parse(localStorage.getItem(storeKey)||'{}')||{}}catch(e){}
 const progress={name:saved.name||'',level:saved.level||'orange',history:Array.isArray(saved.history)?saved.history:[],drafts:saved.drafts||{},practice:saved.practice||{},settings:saved.settings||{},studentCode:saved.studentCode||'',studentClass:saved.studentClass||'7/1',registered:saved.registered===true};
-const state={teacherFilter:'all',teacherSearch:'',teacherSelected:null,page:'home',group:'Food for Life',vocabMode:'cards',grammarId:'quant',readingId:'a1',writingId:'food',flash:null,practice:null,matching:null,order:[],orderChecked:false,spell:null,exam:null,contrast:false,large:false};
+const requestedSection=new URLSearchParams(window.location.search).get('section');
+const initialPage=['home','vocab','grammar','reading','writing','exam','progress','about'].includes(requestedSection)?requestedSection:'home';
+const state={teacherFilter:'all',teacherSearch:'',teacherSelected:null,page:initialPage,group:'Food for Life',vocabMode:'cards',grammarId:'quant',readingId:'a1',writingId:'food',flash:null,practice:null,matching:null,order:[],orderChecked:false,spell:null,exam:null,contrast:false,large:false};
 let ticker=null;
 // Teacher records remain local on this teacher's own device; there is no central database.
 const teacherKey='grade7-adventure-teacher-reports-v1';
